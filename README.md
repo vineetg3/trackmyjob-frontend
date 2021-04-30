@@ -12,6 +12,9 @@ Users can do CRUD operations with information they provide such as Job title, co
 
 ## Screenshots
 
+![Login Page](/images/loginpage.png)
+![Dashboard Page](/images/dashboardpage.png)
+
 ## Installation and Setup
 
 Clone down this repository. You will need `node` and `npm` installed globally on your machine.  
