@@ -13,7 +13,9 @@ Users can do CRUD operations with information they provide such as Job title, co
 ## Screenshots
 
 ![Login Page](/images/loginpage.png)
+
 ![Dashboard Page](/images/dashboardpage.png)
+There would be job cards beside the side nav bar
 
 ## Installation and Setup
 
