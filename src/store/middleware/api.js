@@ -11,7 +11,7 @@ const api = store => next => async action =>  {
     if(onStart)//for changing loading bool
     store.dispatch({type:onStart});
 
-    next(action); 
+    next(action); //apiCallBegan
 
     try{
         var token = localStorage.getItem('accessTokenTrackMyJob');
@@ -28,18 +28,18 @@ const api = store => next => async action =>  {
 
 
         //general
-        store.dispatch(actions.apiCallSuccess(response.data));
+        store.dispatch(actions.apiCallSuccess(response.data)); //redux debugging purposes on redux toolkit
         //specific
         if(onSuccess)
         store.dispatch({type:onSuccess,payload:response.data}); 
         //  store.dispatch will actually travel the whole middleware chain again, including the current middleware
     }catch(error){
         //general error
-        store.dispatch(actions.apiCallFailed(error.message));
+        store.dispatch(actions.apiCallFailed(error.response.data)); //redux debugging purposes on redux toolkit
 
         //specific 
         if(onError)
-        store.dispatch({type:onError,payload: error.message})
+        store.dispatch({type:onError,payload: error.response.data})
     }
 };
 

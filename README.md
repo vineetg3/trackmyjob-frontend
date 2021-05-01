@@ -1,7 +1,7 @@
-# TrackMyJob
+# TrackMyJob - frontend
 
-This web application allows users to track the status of thier jobs with an intutive web interface. All thier data is stored and queried at the backend.
-TrackMyJob is built with React,Bootstrap,JS, and Redux.
+This web application allows users to track the status of thier jobs with an intutive web interface. All their data is stored and queried at the backend.
+TrackMyJob(frontend) is built with React,Bootstrap,JS, and Redux.
 
 The backend for this project is at the following link: [Click me!](https://github.com/vineetg3/trackmyjob-backend)
 

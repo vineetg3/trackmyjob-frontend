@@ -20,8 +20,8 @@ function App() {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/sign-up" component={SignUpPage} />
-            <Route exact path="/auth/internships" component={JobsPage} />
-            <Route exact path="/auth/dashboard" component={DashboardPage} />
+            <Route exact path="/internships" component={JobsPage} />
+            <Route exact path="/dashboard" component={DashboardPage} />
 
     </BrowserRouter>
     </React.Fragment>

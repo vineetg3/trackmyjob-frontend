@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import { useDispatch,useSelector } from 'react-redux'
 import NavigationBarHome from '../components/NavigationBarHome';
 import { Container } from 'react-bootstrap';
 
@@ -8,12 +9,14 @@ const SignUpPage = () => {
     const [username,setUsername]= useState("");
     const [password,setpassword]= useState("");
     const [email,setEmail]= useState("");
-
+    const dispatch = useDispatch();
+    const isError = useSelector(state => state.entities.)
 
 
     function handleSubmit(e){
         e.stopPropagation();
         console.log(username,password,email);
+        dispatch({username:username,password:password,email:email});
     }
     return (
         <React.Fragment>
