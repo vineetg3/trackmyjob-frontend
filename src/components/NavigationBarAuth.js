@@ -20,14 +20,14 @@ export default function NavigationBarAuth({page}) {
           </div>
           <div >
             <ul class="navbar-nav  ml-auto">
-              <li class="nav-item">
+              {/* <li class="nav-item">
               <Link to={{ pathname: "/auth/internships" }}>
                 {toggleActiveLinkNavItem 
                 ?  <div class="nav-link active" >Jobs</div> 
                 : <div class="nav-link" >Jobs</div>}
                 
                 </Link>
-              </li>
+              </li> */}
               <li class="nav-item">
               <Link to={{ pathname: "/auth/dashboard" }}>
               {toggleActiveLinkNavItem 

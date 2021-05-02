@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../apiActions";
-
+import {loginEndpoint, registerEndpoint} from "../apiEndpoints.js"
 const slice = createSlice({
     name:"auth",
     initialState: {
@@ -13,6 +13,7 @@ const slice = createSlice({
         loading:false,
         signedUp:false,
         error: {
+            statusCode:null,
             isError:false,
             message: null,
         }
@@ -25,12 +26,17 @@ const slice = createSlice({
         },
         authRequestFailed : (state,action)=>{
             state.error.isError=true;
-            state.error.message=action.payload.message;
+            state.error.message=action.payload.data.message;
+            state.error.statusCode=action.payload.statusCode;
             state.loading = false;
+        },
+        setError:(state,action)=>{
+            state.error.isError=action.payload.isError;
+            state.error.message=action.payload.message;
         },
         authLoggedIn: (state,action)=>{
             //get
-            const {id,username,email} = action.payload.user;
+            const {id,username,email} = action.payload;
             state.user.id=id;
             state.user.username=username;
             state.user.email=email;
@@ -43,7 +49,11 @@ const slice = createSlice({
         authSignedUp:(state,action) => {
             //post
             state.signedUp=true;
+            state.loading=false;
         },
+        setSignedUpBool: (state,action) =>{
+            state.signedUp=action.payload.isSignedUp;
+        }
 
     }
 });
@@ -55,15 +65,34 @@ const {
     authLoggedIn,
     authLoggedOut,
     authSignedUp,
+    setError,
+    setSignedUpBool,
 } = slice.actions;
 
 export default slice.reducer;
-
+export {setError,setSignedUpBool};
 export const signUpUser = (data) => 
     apiCallBegan({
         method : 'post',
+        url:registerEndpoint,
         data,
-        onSuccess: authLoggedIn.type,
+        onSuccess: authSignedUp.type,
         onError: authRequestFailed.type,
         onStart: authRequested.type,
     });
+
+export const loginUser = (data) =>
+    apiCallBegan({
+        method:'post',
+        url:loginEndpoint,
+        data,
+        onSuccess:authLoggedIn.type,
+        onError:authRequestFailed.type,
+        onStart:authRequested.type,
+    })
+
+export const authClearError = ()=>
+    setError({
+        isError:false,
+        statusCode:null,
+    })

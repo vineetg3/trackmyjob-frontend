@@ -1,15 +1,48 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useState } from 'react';
-import { Container} from 'react-bootstrap';
+import React, { useState,useEffect } from 'react';
+import { Container,Alert} from 'react-bootstrap';
 import NavigationBarHome from '../components/NavigationBarHome';
+import { useDispatch, useSelector } from 'react-redux';
+import {  authClearError, setError,loginUser } from '../store/auth/auth.js'
+import { Redirect } from "react-router-dom";
+
+
 
 const LoginPage = () =>{
     const [email,setEmail]= useState("");
     const [password,setpassword]= useState("");
+    const dispatch = useDispatch();
+    const errorState = useSelector(state => state.auth.error);
+    const loading = useSelector(state => state.auth.loading);
+    const isAuthenticated = useSelector(state => state.auth.isLoggedIn);
+    const validEmailRegex =
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+
+
+
+    //clear errors state affected in other pages
+    useEffect(() => {
+        dispatch(authClearError());
+      }, []);
+
 
     function handleSubmit(e){
         e.stopPropagation();
         console.log(email,password);
+        if (email.length === 0) {
+            dispatch(setError({ isError: true, message: "Email can't be empty" }))
+            return;
+        }
+        if (!validEmailRegex.test(email)) {
+            dispatch(setError({ isError: true, message: "Invalid Email Address" }))
+            return;
+        }
+        if (password.length === 0) {
+            dispatch(setError({ isError: true, message: "Password can't be empty" }))
+            return;
+        }
+        dispatch(loginUser({email,password}));
     }
   
     return (
@@ -46,6 +79,26 @@ const LoginPage = () =>{
                                             Login
                                         </button>
                                     </div>
+                                    {errorState.isError && !loading &&
+                                        <div>
+                                            <Alert variant='danger' onClose={() => { dispatch(authClearError()) }} dismissible>
+                                                Error: {errorState.statusCode} {errorState.message}
+                                            </Alert>
+                                        </div>
+                                    }
+                                    {
+                                        loading && 
+                                        <div  style={{display:"flex"}} >
+                                        <span class="spinner-border mx-auto" role="status" aria-hidden="true"></span>
+                                        
+                                        </div>
+                                    }
+                                    {
+                                        isAuthenticated &&
+                                        <Redirect  to={{
+                                            pathname: "/dashboard",
+                                          }}/>
+                                    }
                                 </form>
                             </div>
                         </div>
