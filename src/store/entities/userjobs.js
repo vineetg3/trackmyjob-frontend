@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../apiActions";
+import { queryUserJobsEndpoint } from "../apiEndpoints";
 
 const slice = createSlice({
-    name:"userJobs",
+    name:"userJobs", //this name doesnt decide store variables
     initialState: {
         list:[],
         loading:false,
@@ -17,7 +18,7 @@ const slice = createSlice({
         },
         userJobsReceived: (state,action)=>{
             //get
-            state.list = action.payload;
+            state.list = action.payload.userJobs;
             state.loading = false;
 
         },
@@ -50,11 +51,10 @@ const {
 
 export default slice.reducer;
 
-export const getQueriedJobs = (query,url)=>{
+export const getQueriedJobs = (query)=>
     apiCallBegan({
-        url,
+        url:queryUserJobsEndpoint,
         method:'get',
         data: query,
         onSuccess:userJobsReceived.type
     })
-}

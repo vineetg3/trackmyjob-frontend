@@ -22,9 +22,11 @@ const api = store => next => async action => {
             data,
             headers: { Authorization: 'Bearer ' + token },
         });
-        //authentication'
+        //authentication and logging out
         if (response.data.access_token)
             localStorage.setItem('accessTokenTrackMyJob', response.data.access_token)
+        if(response.data.message === "JWT revoked")
+            localStorage.removeItem('accessTokenTrackMyJob')
 
 
         //general

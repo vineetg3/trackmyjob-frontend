@@ -2,8 +2,8 @@
 const loginEndpoint = "api/auth/login"
 const registerEndpoint = "api/auth/signup"
 const logoutEndpoint = "api/auth/logout"
-const userJobEndpoint = "api/userjob"
-const queryUserJobsEndpoint = "api/userjob"
+const userJobEndpoint = "api/userjob" //requires job id
+const queryUserJobsEndpoint = "api/userjobs"
 
 export {
     loginEndpoint,

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../apiActions";
-import {loginEndpoint, registerEndpoint} from "../apiEndpoints.js"
+import {loginEndpoint, logoutEndpoint, registerEndpoint} from "../apiEndpoints.js"
 const slice = createSlice({
     name:"auth",
     initialState: {
@@ -44,7 +44,12 @@ const slice = createSlice({
             state.loading = false;
         },
         authLoggedOut:(state,action)=>{
+            state.user.id=null;
+            state.user.username=null;
+            state.user.email=null;
             state.isLoggedIn=false;
+            state.loading = false;
+
         },
         authSignedUp:(state,action) => {
             //post
@@ -95,4 +100,13 @@ export const authClearError = ()=>
     setError({
         isError:false,
         statusCode:null,
+    })
+
+export const logOutUser = ()=>
+    apiCallBegan({
+        method:'post',
+        url:logoutEndpoint,
+        onStart:authRequested.type,
+        onError:authLoggedOut.type,
+        onSuccess:authLoggedOut.type,
     })

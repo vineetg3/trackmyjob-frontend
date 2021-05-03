@@ -1,25 +1,44 @@
-import React,{useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import NavigationBarAuth from '../components/NavigationBarAuth';
 import { Dropdown } from 'react-bootstrap';
 import '../components/sidebar.css';
+import CustomCard from '../components/CustomCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { getQueriedJobs } from '../store/entities/userjobs.js'
 
 
 const DropdownItems = ["Company", "Salary", "Last Application-Date", "Start-Date", "End-Date"];
-const StatusItems = [{ status: "Saved", checked: false },
-{ status: "Applied", checked: false },
-{ status: "Interviewing", checked: false },
-{ status: "Hired", checked: false },
-{ status: "Rejected", checked: false },
-{ status: "Archived", checked: false }];
+const StatusItems = [{ status: "Saved", checked: false, theme: "bg-secondary text-white" },
+{ status: "Applied", checked: false, theme: "bg-dark text-white" },
+{ status: "Interviewing", checked: false, theme: "bg-info text-white" },
+{ status: "Hired", checked: false, theme: "bg-success text-white" },
+{ status: "Rejected", checked: false, theme: "bg-danger text-white" },
+{ status: "Archived", checked: false, theme: "bg-light" }];
 
-const hrStyle={marginTop:'.5rem',marginBottom:'.5rem'}
+const hrStyle = { marginTop: '.5rem', marginBottom: '.5rem' }
 
 const DashboardPage = () => {
     const [filterDropdownItem, setFilterDropDownItem] = useState(DropdownItems[0]);
     const [sortingOrder, setSortingOrder] = useState("");
     const [searchValue, setSearchValue] = useState("");
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
+    const userJobsList = useSelector(state => state.entities.userjobs.list);
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        var lst = []
+        for (let i in StatusItems) {
+            lst.push(i.status)
+        }
+        var defaultQuery = {
+            search: "",
+            sort: DropdownItems[0],
+            order: "asc",
+            showOnly: lst
+        }
+        dispatch(getQueriedJobs(defaultQuery))
+
+    }, [])
 
 
     function handleFilterDropdown(e) {
@@ -43,8 +62,18 @@ const DashboardPage = () => {
         //setCheckedStatus(checkedStatus);
     }
 
-    function handleAddButton(e){
+    function handleAddButton(e) {
         console.log(e.target)
+    }
+
+    function replaceNull(obj) {
+        Object.keys(obj).forEach(
+            (key) => {
+                if (obj[key] === null) {
+                    obj[key] = "NA";
+                }
+            }
+        )
     }
 
 
@@ -62,7 +91,7 @@ const DashboardPage = () => {
                             <ul class="nav flex-column">
                                 <li>
                                     <div class=" mt-2 mx-2">
-                                    <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
+                                        <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
                                     </div>
                                     <hr style={hrStyle}></hr>
                                 </li>
@@ -133,14 +162,25 @@ const DashboardPage = () => {
                     </nav>
                     <div class="col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4">
                         <h2>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tincidunt volutpat turpis sit amet vestibulum. Etiam eu enim eget quam imperdiet interdum. Vestibulum et efficitur risus. Aenean eget porttitor ligula, nec ornare tortor. Ut sodales libero vitae ultrices pretium. Aliquam in nibh eu magna mollis vulputate. Phasellus vel lacus viverra lectus euismod sodales. In nec placerat nisi, nec scelerisque ante.
+                            {
+                                userJobsList.map(
+                                    (job) => {
+                                        job = JSON.parse(JSON.stringify(job));
+                                        replaceNull(job);
+                                        var statusTheme = StatusItems.find((obj) => obj.status === job.status);
+                                        statusTheme = statusTheme.theme;
+                                        console.log(statusTheme) 
+                                       return <CustomCard statusTheme={statusTheme} job={job} />
+                                    }
+                                )
 
-                            Sed blandit diam leo, in mollis elit pretium dignissim. Cras imperdiet eros non dignissim sollicitudin. Curabitur pretium mollis lacus in luctus. Integer eget nisl efficitur, sagittis tortor at, molestie dui. Fusce vitae nulla lacus. Vivamus id turpis velit. Ut dictum orci eget felis elementum, ut consequat lorem feugiat. Vivamus lacus eros, iaculis dapibus lorem eget, viverra fringilla neque. Maecenas sed ultricies augue. Etiam eu laoreet ante.
 
-                            Duis ultricies, massa in tristique vestibulum, velit ipsum placerat risus, at condimentum nunc lacus sit amet purus. Vestibulum a volutpat nisl. Suspendisse nec nisi urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer malesuada, neque quis ullamcorper lacinia, felis erat lacinia nulla, sit amet ultricies metus lacus ut felis. Cras feugiat orci ultrices nisi commodo, ut consequat magna rutrum. Sed pulvinar interdum elit ut interdum. Aenean ultrices eu libero quis sagittis. Aenean arcu massa, consequat a pellentesque quis, cursus a leo. Maecenas efficitur felis sed porttitor fermentum. Duis sit amet aliquet elit. Mauris rutrum efficitur nulla a volutpat. Mauris posuere diam non turpis porta, in sodales ipsum vehicula. Aenean urna orci, hendrerit ac luctus vel, placerat ac arcu. Donec sed egestas diam.
+                            }
+                            {
+                                // map each customcard to an element in list as ...lst[0],StatusItems
+                            }
 
-
-                    </h2>
+                        </h2>
                     </div>
                 </div>
 
@@ -148,6 +188,7 @@ const DashboardPage = () => {
             </div>
         </div>
 
-    )};
+    )
+};
 
 export default DashboardPage;
