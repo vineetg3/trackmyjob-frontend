@@ -1,34 +1,62 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../apiActions";
-import { queryUserJobsEndpoint } from "../apiEndpoints";
+import { queryUserJobsEndpoint, userJobEndpoint } from "../apiEndpoints";
 
 const slice = createSlice({
     name:"userJobs", //this name doesnt decide store variables
     initialState: {
         list:[],
         loading:false,
+        error: {
+            statusCode:null,
+            isError:false,
+            message: null,
+        }
     },
     reducers:{
         //event - event handler
         userJobsRequested: (state,action)=>{
             state.loading = true
+            state.error.isError=false;
+            state.error.message=null;
+            state.error.statusCode=null;
+
         },
         userJobsRequestFailed : (state,action)=>{
             state.loading = false;
+            state.error.isError=true;
+            state.error.message=action.payload.data.message;
+            state.error.statusCode=action.payload.statusCode;
+
+        },
+        setError:(state,action)=>{
+            state.error.isError=action.payload.isError;
+            state.error.message=action.payload.message;
         },
         userJobsReceived: (state,action)=>{
             //get
             state.list = action.payload.userJobs;
             state.loading = false;
+            state.error.isError=false;
+            state.error.message=null;
+            state.error.statusCode=null;
 
         },
         userJobsAdded:(state,action) => {
             //post
+            state.loading = false;
+            state.error.isError=false;
+            state.error.message=null;
+            state.error.statusCode=null;
             state.list.push(action.payload);
         },
-        userJobsRemoved: ( state,action)=>{
+        userJobRemoved: ( state,action)=>{
             //Delete
-            let idx = state.list.findIndex(userJob => userJob.id === action.payload.id);
+            state.loading = false;
+            state.error.isError=false;
+            state.error.message=null;
+            state.error.statusCode=null;
+            let idx = state.list.findIndex(userJob => userJob.userJob_id === action.payload.userJob_id);
             state.list.splice(idx,1);
        },
        userJobsModified:(state,action)=>{
@@ -43,7 +71,7 @@ const slice = createSlice({
 const {
     userJobsReceived,
     userJobsAdded,
-    userJobsRemoved,
+    userJobRemoved,
     userJobsModified,
     userJobsRequested,
     userJobsRequestFailed,
@@ -54,7 +82,18 @@ export default slice.reducer;
 export const getQueriedJobs = (query)=>
     apiCallBegan({
         url:queryUserJobsEndpoint,
-        method:'get',
+        method:'post',
         data: query,
-        onSuccess:userJobsReceived.type
+        onStart:userJobsRequested.type,
+        onSuccess:userJobsReceived.type,
+        onError:userJobsRequestFailed.type,
     })
+
+export const deleteJob = (id) => 
+    apiCallBegan(
+        {
+            url:userJobEndpoint+`/${id}`,
+            method:'delete',
+            onSuccess:userJobRemoved.type,
+        }
+    )
