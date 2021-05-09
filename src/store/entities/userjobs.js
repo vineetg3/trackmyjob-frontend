@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { apiCallBegan } from "../apiActions";
-import { queryUserJobsEndpoint, userJobEndpoint } from "../apiEndpoints";
+import { queryUserJobsEndpoint, userJobEndpoint,addUserJobEndpoint } from "../apiEndpoints";
 
 const slice = createSlice({
     name:"userJobs", //this name doesnt decide store variables
@@ -42,13 +42,13 @@ const slice = createSlice({
             state.error.statusCode=null;
 
         },
-        userJobsAdded:(state,action) => {
+        userJobAdded:(state,action) => {
             //post
             state.loading = false;
             state.error.isError=false;
             state.error.message=null;
             state.error.statusCode=null;
-            state.list.push(action.payload);
+            state.list.unshift(action.payload.userJob);
         },
         userJobRemoved: ( state,action)=>{
             //Delete
@@ -59,10 +59,14 @@ const slice = createSlice({
             let idx = state.list.findIndex(userJob => userJob.userJob_id === action.payload.userJob_id);
             state.list.splice(idx,1);
        },
-       userJobsModified:(state,action)=>{
+       userJobModified:(state,action)=>{
            //Put request
-            let idx = state.list.findIndex(userJob => userJob.id === action.payload.id);
-            state.list[idx]=action.payload;
+           state.loading = false;
+            state.error.isError=false;
+            state.error.message=null;
+            state.error.statusCode=null;
+            let idx = state.list.findIndex(userJob => userJob.userJob_id === action.payload.userJob.userJob_id);
+            state.list[idx]=action.payload.userJob;
        }
     }
 });
@@ -70,9 +74,9 @@ const slice = createSlice({
 
 const {
     userJobsReceived,
-    userJobsAdded,
+    userJobAdded,
     userJobRemoved,
-    userJobsModified,
+    userJobModified,
     userJobsRequested,
     userJobsRequestFailed,
 } = slice.actions
@@ -95,5 +99,30 @@ export const deleteJob = (id) =>
             url:userJobEndpoint+`/${id}`,
             method:'delete',
             onSuccess:userJobRemoved.type,
+            //add on error later
+        }
+    )
+
+export const addJob = (data)=>
+    apiCallBegan(
+        {
+            url:addUserJobEndpoint,
+            method:'post',
+            data,
+            onStart:userJobsRequested.type,
+            onSuccess:userJobAdded.type,
+            onError:userJobsRequestFailed.type
+        }
+    )
+
+    export const editJob = (data,id)=>
+    apiCallBegan(
+        {
+            url:userJobEndpoint+`/${id}`,
+            method:'put',
+            data,
+            onStart:userJobsRequested.type,
+            onSuccess:userJobModified.type,
+            onError:userJobsRequestFailed.type
         }
     )

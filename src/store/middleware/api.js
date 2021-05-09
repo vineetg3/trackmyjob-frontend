@@ -1,6 +1,13 @@
 import axios from 'axios';
 import * as actions from "../apiActions.js";
-import configData from "../../config.json";
+
+let SERVER_BASE_URL;
+
+if(process.env.NODE_ENV==="production"){
+    SERVER_BASE_URL="https://trackmyjob-api.herokuapp.com/"
+}else{
+    SERVER_BASE_URL="http://localhost:3000/";
+}
 
 const api = store => next => async action => {
     if (action.type !== actions.apiCallBegan.type) return next(action);
@@ -16,7 +23,7 @@ const api = store => next => async action => {
     try {
         var token = localStorage.getItem('accessTokenTrackMyJob');
         const response = await axios.request({
-            baseURL: configData.SERVER_BASE_URL,
+            baseURL: SERVER_BASE_URL,
             url,
             method,
             data,

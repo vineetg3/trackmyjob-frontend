@@ -14,12 +14,12 @@ const SignUpPage = () => {
     const isSignedUp = useSelector(state => state.auth.signedUp);
     const loading = useSelector(state => state.auth.loading);
     const validEmailRegex =
-        /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 
 
     function handleSubmit(e) {
-        e.stopPropagation();
+        e.preventDefault();
         console.log(username, password, email);
         if (username.length === 0) {
             dispatch(setError({ isError: true, message: "Username can't be empty" }))

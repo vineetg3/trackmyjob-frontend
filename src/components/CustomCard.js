@@ -1,15 +1,22 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import "./customcard.css";
-import { Overlay, Tooltip, Alert } from 'react-bootstrap';
+import { Overlay, Tooltip} from 'react-bootstrap';
 import { deleteJob } from '../store/entities/userjobs.js'
 import { useDispatch } from 'react-redux';
+import CustomEditCardModal from './customEditCardModal.js';
 
 
-const CustomCard = (props) => {
+
+
+//props.job 
+//props.statusTheme
+const CustomCard = (props) => { 
     const [isCopied, setIsCopied] = useState(false);
     //When clicked on deleted button
     const [isDeleted, setIsDeleted] = useState(false);
+    const [toEdit, setToEdit] = useState(false);
+
     const target = useRef(null);
     const dispatch = useDispatch();
 
@@ -28,6 +35,10 @@ const CustomCard = (props) => {
     function handleConfirmedDelete(e) {
         setIsDeleted(false);
         dispatch(deleteJob(props.job.userJob_id));
+    }
+
+    function handleEdit(e){
+        setToEdit(!toEdit);
     }
     
 
@@ -85,7 +96,11 @@ const CustomCard = (props) => {
                                     </div>
                                 </div>
                                 <div class="col px-0 mx-0 mt-3">
-                                        <button type="button" class="btn btn-primary mx-1">Edit</button>
+                                        <button type="button" class="btn btn-primary mx-1" onClick={handleEdit}>Edit</button>
+                                        {
+                                            toEdit &&
+                                            <CustomEditCardModal job={props.job} onClose={handleEdit} editCardModal={toEdit}/>
+                                        }
                                         <button type="button" class="btn btn-danger mx-1" onClick={handleDelete}>Delete</button>
                                 </div>
                             </div>

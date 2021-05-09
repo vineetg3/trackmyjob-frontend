@@ -1,0 +1,11 @@
+.middle {
+    height: 100%;
+    position: absolute;
+    top: 10%;
+}
+
+.bottom{
+    position: absolute;
+    bottom:10%;
+    margin:auto;
+}

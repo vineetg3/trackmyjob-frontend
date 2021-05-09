@@ -16,7 +16,7 @@ const LoginPage = () => {
     const loading = useSelector(state => state.auth.loading);
     const isAuthenticated = useSelector(state => state.auth.isLoggedIn);
     const validEmailRegex =
-        /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 
 

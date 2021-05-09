@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import NavigationBarAuth from '../components/NavigationBarAuth';
+import CustomAddCardModal from '../components/customAddCardModal';
 import { Dropdown, Alert } from 'react-bootstrap';
 import '../components/sidebar.css';
 import CustomCard from '../components/CustomCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQueriedJobs } from '../store/entities/userjobs.js'
+import {DropdownItems,StatusItems} from '../uiElements.js';
 
 
-const DropdownItems = ["Company", "Salary", "Date of Last Application", "Start-Date", "End-Date", "Last Modified", "Created Date"];
-const StatusItems = [{ status: "Saved", checked: false, theme: "bg-light" },
-{ status: "Applied", checked: false, theme: "bg-dark text-white" },
-{ status: "Interviewing", checked: false, theme: "bg-info text-white" },
-{ status: "Hired", checked: false, theme: "bg-success text-white" },
-{ status: "Rejected", checked: false, theme: "bg-danger text-white" },
-{ status: "Archived", checked: false, theme: "bg-secondary text-white" }];
 
 const hrStyle = { marginTop: '.3rem', marginBottom: '.3rem' }
 
@@ -21,6 +16,7 @@ const DashboardPage = () => {
     const [filterDropdownItem, setFilterDropDownItem] = useState(DropdownItems[0]);
     const [sortingOrder, setSortingOrder] = useState("");
     const [searchValue, setSearchValue] = useState("");
+    const [addCardModal, setAddCardModal] = useState(false);
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
     const userJobsList = useSelector(state => state.entities.userjobs.list);
     const isLoading = useSelector(state => state.entities.userjobs.loading);
@@ -72,7 +68,7 @@ const DashboardPage = () => {
     }
 
     function handleAddButton(e) {
-        console.log(e.target)
+        setAddCardModal(!addCardModal);
     }
 
     function handleQueryButton(e) {
@@ -87,7 +83,7 @@ const DashboardPage = () => {
                     lst.push(checkedStatus[i].status)
             }
         }
-            queryObject.searchTerm = searchValue;
+        queryObject.searchTerm = searchValue;
         queryObject.sortingEntity = filterDropdownItem;
         queryObject.sortingOrder = sortingOrder;
         queryObject.entitiesVisible = lst;
@@ -122,6 +118,10 @@ const DashboardPage = () => {
                                 <li>
                                     <div class=" my-2 mx-2">
                                         <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
+                                        {
+                                            addCardModal &&
+                                            <CustomAddCardModal addCardModal={addCardModal} onClose={handleAddButton} />
+                                        }
                                     </div>
                                     <hr style={hrStyle}></hr>
                                 </li>
