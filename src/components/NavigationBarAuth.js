@@ -11,7 +11,7 @@ import { logOutUser } from '../store/auth/auth.js';
 
 
 
-export default function NavigationBarAuth() {
+export default function NavigationBarAuth(props) {
   const dispatch = useDispatch();
   const username = useSelector(state => state.auth.user.username);
   const isloading = useSelector(state => state.auth.loading);
@@ -29,17 +29,12 @@ export default function NavigationBarAuth() {
       <div class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-end fixed-top">
         <div class="navbar-brand mr-auto" >
           <img src={logo} width="200" height="40" class="d-inline-block align-top" alt="Logo" />
+          <button class="btn btn-outline-info btn-sm" onClick={props.toggleQueryBar}>Toggle Menu</button>
         </div>
         <div >
           <ul class="navbar-nav  ml-auto">
             <li class="nav-item">
               <h5><div class="badge badge-light p-2 mt-1 " >Hi {username}!</div></h5>
-            </li>
-
-            <li class="nav-item">
-              <Link to={{ pathname: "/dashboard" }}>
-                <div class="nav-link active" >Dashboard</div>
-              </Link>
             </li>
             <li>
               {
@@ -67,15 +62,3 @@ export default function NavigationBarAuth() {
   );
 };
 
-
-/*
-<Link to={{ pathname: "/auth/internships" }}>
-              <div class="nav-link px-2 text-white">Internships</div>
-              </Link>
-              <Link to={{ pathname: "/auth/dashboard" }}>
-              <div class="nav-link px-2 text-white">My Dashboard</div>
-              </Link>
-              <Link to={{ pathname: "/" }}>
-                <button type="button" class="btn btn-info ml-3">Logout</button>
-              </Link>
-              */

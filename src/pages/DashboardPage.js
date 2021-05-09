@@ -17,6 +17,8 @@ const DashboardPage = () => {
     const [sortingOrder, setSortingOrder] = useState("");
     const [searchValue, setSearchValue] = useState("");
     const [addCardModal, setAddCardModal] = useState(false);
+    const [isQueryBar, setIsQueryBar] = useState(true);
+    const [rightPaneCss, setRightPaneCss] = useState("col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4");
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
     const userJobsList = useSelector(state => state.entities.userjobs.list);
     const isLoading = useSelector(state => state.entities.userjobs.loading);
@@ -41,7 +43,6 @@ const DashboardPage = () => {
         queryObject.sortingEntity = "Last Modified";
         queryObject.sortingOrder = "Des";
         queryObject.entitiesVisible = lst;
-        console.log(queryObject)
         dispatch(getQueriedJobs(queryObject))
     }, []);
 
@@ -51,7 +52,6 @@ const DashboardPage = () => {
     function handleFilterDropdown(e) {
         // e -> index of clicked dropdown
         setFilterDropDownItem(DropdownItems[e]);
-        console.log(filterDropdownItem);
     }
 
     function handleSortingOrder(e) {
@@ -63,8 +63,6 @@ const DashboardPage = () => {
     function handleCheckedStatus(e) {
         //if all status are false, display everything
         checkedStatus[e.target.value].checked = !checkedStatus[e.target.value].checked;
-        console.log(checkedStatus);
-        //setCheckedStatus(checkedStatus);
     }
 
     function handleAddButton(e) {
@@ -100,23 +98,28 @@ const DashboardPage = () => {
         )
     }
 
-
-
-
-
-
+    function toggleQueryBar(e){
+        setIsQueryBar(!isQueryBar);
+        if(!isQueryBar){
+            setRightPaneCss("col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4");
+        }else{
+            setRightPaneCss("col px-4 mt-5 pt-4");
+        }
+    }
 
     return (
         <div>
-            <NavigationBarAuth page="dashboard" />
+            <NavigationBarAuth page="dashboard" toggleQueryBar={toggleQueryBar}/>
 
             <div class="container-fluid">
                 <div class="row">
-                    <nav class="col-sm-3 col-lg-2  .d-sm-none .d-md-block bg-light sidebar mt-4 pt-4 px-1 position-fixed">
+                    {
+                        isQueryBar &&
+                        <nav class="col-sm-3 col-lg-2  .d-sm-none .d-md-block bg-light sidebar mt-4 pt-4 px-1 position-fixed">
                         <div class="sidebar-sticky" >
                             <ul class="nav flex-column">
                                 <li>
-                                    <div class=" my-2 mx-2">
+                                    <div class=" mt-4 mx-2">
                                         <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
                                         {
                                             addCardModal &&
@@ -191,7 +194,7 @@ const DashboardPage = () => {
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="mb-2 mx-2">
+                                    <div class="mb-1 mx-2">
                                         <h6 class="font-weight-bold">Show only:</h6>
                                         <div class="form-check">
 
@@ -210,8 +213,9 @@ const DashboardPage = () => {
 
                             </ul>
                         </div>
-                    </nav>
-                    <div class="col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4">
+                    </nav> 
+                    }
+                    <div class={rightPaneCss}>
                         {
                             !isLoading && !errorState.isError &&
                             <div className="card p-3 px-4">
