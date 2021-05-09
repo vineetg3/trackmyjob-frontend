@@ -27,7 +27,7 @@ const HomePage = () => {
           </main>
           <footer class="mastfoot mt-auto">
             <div class="inner">
-              <p class="bottom">Created by <a href="https://www.linkedin.com/in/vineetgandham/">Vineet</a>. <a href="https://github.com/vineetg3/trackmyjob-frontend">Repo</a></p>
+              <p class="bottom">Created by <a href="https://www.linkedin.com/in/vineetgandham/">Vineet</a>. <a href="https://github.com/vineetg3/trackmyjob-frontend">Repo is hosted at github.</a>Reach me out at vineet.gandham@gmail.com :)</p>
             </div>
           </footer>
         </div>
