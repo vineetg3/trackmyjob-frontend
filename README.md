@@ -2,14 +2,16 @@
 
 This web application allows users to track the status of thier jobs with an intutive web interface. All their data is stored and queried at the backend.
 TrackMyJob(frontend) is built with React,Bootstrap,JS, and Redux.
+A user can use it for thier university applications as well !
 
 Check out the live version : [trackmyjob](https://trackmyjob.herokuapp.com/)
 
 The backend for this project is at the following link: [Click me!](https://github.com/vineetg3/trackmyjob-backend)
 
 ## Project Status
-This project is currently in development. 
+This project is completed with the planned functionality. 
 Users can do CRUD operations with information they provide such as Job title, company, status of the job(applied, interviews, archived, etc..), date of application, etc. However, users need to sign up and login so that thier information is stored for future use.
+Feature requests are welcome!
 
 
 ## Screenshots
