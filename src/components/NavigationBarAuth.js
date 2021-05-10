@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import logo from '../static/logo.png';
-import {  Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutUser } from '../store/auth/auth.js';
 
@@ -42,11 +42,11 @@ export default function NavigationBarAuth(props) {
 
           <div class="navbar-brand mr-auto" >
             <img src={logo} width="200" height="40" class="d-inline-block align-top" alt="Logo" />
+            <button class="btn btn-outline-info btn-sm ml-4" onClick={props.toggleQueryBar}>Toggle Side Menu</button>
           </div>
           <ul class="navbar-nav  ml-auto">
             <li class="nav-item mt-2 mb-0">
               <h5><div class="badge badge-light p-2 " >Hi {username}!</div></h5>
-
             </li>
             <li class="nav-item ml-2">
               {

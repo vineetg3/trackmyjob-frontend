@@ -19,7 +19,7 @@ const DashboardPage = () => {
     const [searchValue, setSearchValue] = useState("");
     const [addCardModal, setAddCardModal] = useState(false);
     const [isQueryBar, setIsQueryBar] = useState(false);
-    const [rightPaneCss, setRightPaneCss] = useState("col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4");
+    const [rightPaneCss, setRightPaneCss] = useState("col px-4 mt-5 pt-4");
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
     const userJobsList = useSelector(state => state.entities.userjobs.list);
     const isLoading = useSelector(state => state.entities.userjobs.loading);
@@ -116,8 +116,8 @@ const DashboardPage = () => {
                 <div class="row">
                     {
                         isQueryBar &&
-                        <nav class="col-sm-3 col-lg-2  .d-sm-none .d-md-block bg-light sidebar mt-4 pt-4 px-1 position-fixed">
-                        <div class="sidebar-sticky" >
+                        <nav class="col-sm-3 col-lg-2  .d-sm-none .d-md-block bg-light sidebar mt-4 pt-4 px-1 position-fixed" style={{overflowY:"scroll"}}>
+                        <div class="sidebar-sticky mt-4"  >
                             <ul class="nav flex-column">
                                 <li>
                                     <div class=" mt-2 mx-2">
