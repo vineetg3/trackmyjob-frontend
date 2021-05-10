@@ -79,8 +79,8 @@ const CustomCard = (props) => {
                         <div class="container px-0 ml-3">
                             <div class="row px-0 ">
                                 <div class="col-9 px-0 ">
-                                    <h5 class="card-text mb-1"><b>Application Location</b></h5>
-                                    <div style={{ fontSize: "20px" }} class="row mx-1 mb-2">
+                                    <h5 class="card-text mb-1" ><b>Application Location</b></h5>
+                                    <div  class="row mx-1 mb-2">
 
                                         <CopyToClipboard text={props.job.applicationLocation} onCopy={copyToClipboard}>
                                             <button class="btn btn-info p-1 mt-0" ref={target}><i class="fa fa-copy fa-xs"></i></button>
@@ -92,7 +92,7 @@ const CustomCard = (props) => {
                                                 </Tooltip>
                                             )}
                                         </Overlay>
-                                        <p class="m-1"><u>{props.job.applicationLocation}</u></p>
+                                        <div class="m-1" style={{ fontSize: "15px",wordWarp:"break-word" }}><u>{props.job.applicationLocation}</u></div>
                                     </div>
                                 </div>
                                 <div class="col px-0 mx-0 mt-3">

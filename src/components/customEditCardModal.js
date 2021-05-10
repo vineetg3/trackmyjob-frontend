@@ -38,7 +38,7 @@ function replaceBlank(obj) {
     const sd= convertDatetoDefaultJS(props.job.startDate);
     const ed=convertDatetoDefaultJS(props.job.endDate);
     const lad=convertDatetoDefaultJS(props.job.lastApplicationDate);
-    const [jobType, setJobType] = useState(props.job.jobType);
+    const [jobType, setJobType] = useState(props.job.typeOfJob);
     const [jobLocation, setJobLocation] = useState(props.job.location);
     const [jobTitle, setJobTitle] = useState(props.job.jobTitle);
     const [company, setCompany] = useState(props.job.company);
@@ -78,7 +78,6 @@ function replaceBlank(obj) {
 
         setStatus(e.target.value);
     }
-
 
 
 
