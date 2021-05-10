@@ -21,6 +21,8 @@ const DashboardPage = () => {
     const [isQueryBar, setIsQueryBar] = useState(false);
     const [rightPaneCss, setRightPaneCss] = useState("col px-4 mt-5 pt-4");
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
+    const [width, setDimensions] = useState(window.innerWidth);
+
     const userJobsList = useSelector(state => state.entities.userjobs.list);
     const isLoading = useSelector(state => state.entities.userjobs.loading);
     const errorState = useSelector(state => state.entities.userjobs.error);
@@ -47,6 +49,14 @@ const DashboardPage = () => {
         dispatch(getQueriedJobs(queryObject))
     }, []);
 
+    useEffect(() => {
+        function handleResize() {
+          setDimensions(
+            window.innerWidth
+          )
+        }
+        window.addEventListener('resize', handleResize)
+      })
     
 
 
@@ -66,10 +76,7 @@ const DashboardPage = () => {
         checkedStatus[e.target.value].checked = !checkedStatus[e.target.value].checked;
     }
 
-    function handleAddButton(e) {
-        setAddCardModal(!addCardModal);
-    }
-
+    
     function handleQueryButton(e) {
         let lst = [];
         for(let i=0;i<checkedStatus.length;i++){
@@ -79,16 +86,19 @@ const DashboardPage = () => {
         }
         if (lst.length === 0) {
             for(let i=0;i<checkedStatus.length;i++){
-                    lst.push(checkedStatus[i].status)
+                lst.push(checkedStatus[i].status)
             }
         }
         queryObject.searchTerm = searchValue;
         queryObject.sortingEntity = filterDropdownItem;
         queryObject.sortingOrder = sortingOrder;
         queryObject.entitiesVisible = lst;
-        console.log(queryObject);
         dispatch(getQueriedJobs(queryObject));
+        if(width<1000){
+            toggleQueryBar(null);
+        }
     }
+    
     function replaceNull(obj) {
         Object.keys(obj).forEach(
             (key) => {
@@ -98,14 +108,25 @@ const DashboardPage = () => {
             }
         )
     }
-
+    function handleAddButton(e) {
+        //add button callback used at addcard modal at close and save changed
+        setAddCardModal(!addCardModal);
+        if(width<1000){
+            toggleQueryBar(null);
+        }
+    }
     function toggleQueryBar(e){
+        //callback when clicked on toggle query button
         setIsQueryBar(!isQueryBar);
         if(!isQueryBar){
             setRightPaneCss("col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4");
         }else{
             setRightPaneCss("col px-4 mt-5 pt-4");
         }
+    } 
+    function toggleAddCardModal(e){
+        //called when clicked on add card in query menu
+        setAddCardModal(!addCardModal);
     }
 
     return (
@@ -121,7 +142,7 @@ const DashboardPage = () => {
                             <ul class="nav flex-column">
                                 <li>
                                     <div class=" mt-2 mx-2">
-                                        <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
+                                        <button class="btn btn-primary btn-block " type="button" onClick={toggleAddCardModal}>+ Add Card</button>
                                         {
                                             addCardModal &&
                                             <CustomAddCardModal addCardModal={addCardModal} onClose={handleAddButton} />

@@ -68,7 +68,6 @@ function replaceBlank(obj) {
             status,
         };
         replaceBlank(data);
-        console.log(data);
         dispatch(editJob(data,props.job.userJob_id));
         props.onClose();
     }
@@ -150,7 +149,7 @@ function replaceBlank(obj) {
                                 onChange={handleStatusChange}>
                                 {
                                     StatusItems.map((item, idx) =>
-                                        <option value={item.status} class={item.theme}>{item.status}</option>
+                                        <option value={item.status} class={item.theme} key={idx}>{item.status}</option>
                                     )
                                 }
                             </select>

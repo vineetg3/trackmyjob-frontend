@@ -31,7 +31,6 @@ const LoginPage = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(email, password);
         if (email.length === 0) {
             dispatch(setError({ isError: true, message: "Email can't be empty" }))
             return;

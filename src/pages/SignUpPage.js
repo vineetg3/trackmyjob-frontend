@@ -79,7 +79,8 @@ const SignUpPage = () => {
                                             Sign Up
                                         </button>
                                     </div>
-                                    {errorState.isError && !loading &&
+                                    {
+                                    errorState.isError && !loading &&
                                         <div>
                                             <Alert variant='danger' onClose={() => { dispatch(authClearError()) }} dismissible>
                                                 Error: {errorState.statusCode} {errorState.message}

@@ -42,7 +42,7 @@ export default function NavigationBarAuth(props) {
 
           <div class="navbar-brand mr-auto" >
             <img src={logo} width="200" height="40" class="d-inline-block align-top" alt="Logo" />
-            <button class="btn btn-outline-info btn-sm ml-4" onClick={props.toggleQueryBar}>Toggle Side Menu</button>
+            <button class="btn btn-outline-info btn-sm ml-4" onClick={props.toggleQueryBar}>Toggle Query Bar</button>
           </div>
           <ul class="navbar-nav  ml-auto">
             <li class="nav-item mt-2 mb-0">
@@ -84,7 +84,7 @@ export default function NavigationBarAuth(props) {
                   <div class="text-center" >Hi {username}!</div>
                 </NavDropdown.Item>
                 <NavDropdown.Item >
-                  <button class="btn btn-outline-info btn-block" onClick={props.toggleQueryBar}>Toggle Side Menu</button>
+                  <button class="btn btn-outline-info btn-block" onClick={props.toggleQueryBar}>Toggle Query Bar</button>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item >

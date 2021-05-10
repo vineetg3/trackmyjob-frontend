@@ -48,20 +48,13 @@ export default function CustomAddCardModal(props) {
             status,
         };
         replaceBlank(data);
-        console.log(data);
         dispatch(addJob(data));
         props.onClose();
     } 
 
     function handleStatusChange(e) {
-        console.log(e.target.value);
         setStatus(e.target.value);
     }
-
-
-
-
-
 
 
     return (
