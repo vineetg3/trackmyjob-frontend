@@ -90,7 +90,7 @@ const SignUpPage = () => {
                                         isSignedUp && !loading &&
                                         <div>
                                             <Alert variant='success' onClose={() => { dispatch(setSignedUpBool({ isSignedUp: false })) }} dismissible>
-                                                Signed Up Successfully!
+                                                Signed Up Successfully! You may login now.
                                             </Alert>
                                         </div>
                                     }

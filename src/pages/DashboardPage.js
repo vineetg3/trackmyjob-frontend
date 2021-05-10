@@ -10,6 +10,7 @@ import {DropdownItems,StatusItems} from '../uiElements.js';
 
 
 
+
 const hrStyle = { marginTop: '.3rem', marginBottom: '.3rem' }
 
 const DashboardPage = () => {
@@ -17,7 +18,7 @@ const DashboardPage = () => {
     const [sortingOrder, setSortingOrder] = useState("");
     const [searchValue, setSearchValue] = useState("");
     const [addCardModal, setAddCardModal] = useState(false);
-    const [isQueryBar, setIsQueryBar] = useState(true);
+    const [isQueryBar, setIsQueryBar] = useState(false);
     const [rightPaneCss, setRightPaneCss] = useState("col-sm-9 ml-sm-auto .d-block col-lg-10 px-4 mt-5 pt-4");
     const [checkedStatus, setCheckedStatus] = useState(StatusItems);
     const userJobsList = useSelector(state => state.entities.userjobs.list);
@@ -119,7 +120,7 @@ const DashboardPage = () => {
                         <div class="sidebar-sticky" >
                             <ul class="nav flex-column">
                                 <li>
-                                    <div class=" mt-4 mx-2">
+                                    <div class=" mt-2 mx-2">
                                         <button class="btn btn-primary btn-block " type="button" onClick={handleAddButton}>+ Add Card</button>
                                         {
                                             addCardModal &&
